@@ -8,8 +8,8 @@ export class Queue {
         this.queue.push(element);
     }
 
-    dequeue(element) {
-        this.queue.shift(element);
+    dequeue() {
+        this.queue.shift();
     }
 
     front() {
@@ -26,7 +26,7 @@ export class Queue {
 
     print() {
         let str = "";
-        for (let i = 0; i < queue.length; i++) {
+        for (let i = 0; i < this.queue.length; i++) {
             str += this.queue[i] + " ";
         }
         console.log(str);
