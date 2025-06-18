@@ -12,15 +12,17 @@ const rl = createInterface({
 });
 
 function printMenu() {
+    console.log("=======================================================");
     console.log("This is the postfix++ calculator");
+    console.log("Operands and operators must be separated by a space ' '");
+    console.log("=======================================================");
 }
 
 function promptInput() {
 
     // this function is async, so it doesn't block
     rl.question('Type postfix expression: ', (input) => {
-        console.log(`You entered: ${input}`);
-        calculator.greet();
+        calculator.calculate(input);
         // must make recursive call inside callback to prevent stack overflow
         promptInput();
 

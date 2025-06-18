@@ -3,42 +3,50 @@ import { Queue } from './queue.js'
 
 export class Calculator {
     constructor() {
-        this.stack = new Stack();
-        this.queue = new Queue();
+        // this.queue = new Queue();
     }
 
-    greet() {
+    calculate(input) {
+        let queue = this.tokenize(input);
+        queue.print();
 
-
+        return 1;
     }
+
+    tokenize(input) {
+        let queue = new Queue();
+        let tokens  = input.split(" ");
+        for (let i = 0; i < tokens.length; i++) {
+            queue.enqueue(tokens[i]);
+        }
+        return queue;
+    }
+
+    operation(a, b, operator) {
+        if (operator = '+')
+            return a + b
+        else if (operator = '-')
+            return b - a
+        else if (operator = '*')
+            return a * b
+        else if (operator = '/')
+            return b / a
+    }
+
+    evaluate(input) {
+
+        let stack = new Stack();
+        // while (input is not empty)
+        //     token <- dequeue(input)
+        //     if token is a number
+        //         push(token, stack)
+        //     else
+        //         a <- pop(stack)
+        //         b <- pop(stack)
+        //         c <- operation(a, b, token)
+        //         push(c, stack)
+        // return pop(stack)
+    }
+
+
 }
-
-
-// Test stack functions
-// console.log(`Hello, ${this.name}!`);
-// this.stack.push(1);
-// this.stack.push(2);
-// this.stack.push(3);
-// this.stack.print();
-// console.log(this.stack.top());
-// console.log(this.stack.size());
-// this.stack.pop();
-// this.stack.print();
-// console.log(this.stack.top());
-// console.log(this.stack.size());
-// console.log(this.stack.isEmpty());
-// console.log(this.stack.pop());
-// console.log(this.stack.pop());
-// console.log(this.stack.isEmpty());
-
-// This tests queue functionality
-// this.queue.enqueue(1);
-// this.queue.enqueue(2);
-// console.log(this.queue.front());
-// this.queue.print();
-// this.queue.dequeue();
-// this.queue.print();
-// console.log(this.queue.isEmpty());
-// console.log(this.queue.size());
-// this.queue.dequeue();
-// console.log(this.queue.isEmpty());
