@@ -22,7 +22,11 @@ function promptInput() {
 
     // this function is async, so it doesn't block
     rl.question('Type postfix expression: ', (input) => {
-        calculator.calculate(input);
+        try {
+            console.log(calculator.evaluate(input));
+        } catch(error) {
+            console.error("Error:", error.message);
+        }
         // must make recursive call inside callback to prevent stack overflow
         promptInput();
 

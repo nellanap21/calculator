@@ -3,19 +3,33 @@ import { Queue } from './queue.js'
 
 export class Calculator {
     constructor() {
-        // this.queue = new Queue();
-    }
-
-    calculate(input) {
-        let queue = this.tokenize(input);
-        queue.print();
-
-        return 1;
+        
     }
 
     tokenize(input) {
         let queue = new Queue();
-        let tokens  = input.split(" ");
+
+        // remove spaces before, end, and in middle
+        let cleanedInput = input.replace(/\s+/g, ' ').trim();
+        
+        // split into tokens
+        let tokens = cleanedInput.split(" ");
+
+        let operands = 0;
+        let operators = 0;
+
+        for (let i = 0; i < tokens.length; i++) {
+            if (!isNaN(tokens[i])) {
+                operands++;
+            } else {
+                operators++;
+            }
+        }
+        if (operands - 1 != operators) {
+            throw new Error(`Not a valid expression. Operators must be 1 less than operands`);
+        }
+
+        // add to queue
         for (let i = 0; i < tokens.length; i++) {
             queue.enqueue(tokens[i]);
         }
@@ -23,29 +37,49 @@ export class Calculator {
     }
 
     operation(a, b, operator) {
-        if (operator = '+')
+        if (operator === '+')
             return a + b
-        else if (operator = '-')
+        else if (operator === '-')
+            // tokens read from left to right, so you reverse subtraction
             return b - a
-        else if (operator = '*')
+        else if (operator === '*')
             return a * b
-        else if (operator = '/')
+        else if (operator === '/')
+            if (a === 0) {
+                throw new Error (`Cannot divide by zero`);
+            }
+            // tokens read from left to right, so you reverse division
             return b / a
     }
 
     evaluate(input) {
 
+        // convert input into a queue of tokens
+        let queue = this.tokenize(input);
+
+        // temp stack to store tokens in reverse order
         let stack = new Stack();
-        // while (input is not empty)
-        //     token <- dequeue(input)
-        //     if token is a number
-        //         push(token, stack)
-        //     else
-        //         a <- pop(stack)
-        //         b <- pop(stack)
-        //         c <- operation(a, b, token)
-        //         push(c, stack)
-        // return pop(stack)
+
+        while (!queue.isEmpty()) {
+
+            // take token from front of queue
+            let token = queue.dequeue();
+
+            // check if token is a number
+            if (!isNaN(token)) {
+                console.log(`${token} is a number`);
+                stack.push(token);
+            } else { 
+                console.log(`${token} is not a number`);
+                let a = Number(stack.pop());
+                let b = Number(stack.pop());
+                let c = this.operation(a, b, token);
+                console.log(a + " " + b + " " + token + " = " + c);
+                stack.push(c);
+            }
+        }
+
+        return stack.pop();
     }
 
 
