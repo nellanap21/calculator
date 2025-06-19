@@ -4,7 +4,7 @@ import { HashTable } from './hashTable.js'
 
 export class Calculator {
     constructor() {
-        this.table = new HashTable(26);
+        this.table = new HashTable(6);
         this.vNamespace = /[A-Z]/;
         this.tNamespace = /\+|-|\*|\/|\.|=|\s|[A-Z]|0-9|/;
     }
@@ -83,7 +83,7 @@ export class Calculator {
             } else if (token === '=') { // if assignment operator, assign to table and return
                 let a = stack.pop();
                 let b = stack.pop();
-                this.table.insert(b, a);
+                this.table.insert(b + a);
                 let confirm = (`${b} = ${a} saved`);
                 return confirm;
 
@@ -91,10 +91,10 @@ export class Calculator {
                 // remove top 2 operands from stack and apply operator
                 let a = stack.pop();
                 let b = stack.pop();
-
+                console.log(a + " " + b);
                 // if variable, search for value in table
-                if (this.vNamespace.test(a)) a = this.table.search(this.table.hash(a));
-                if (this.vNamespace.test(b)) b = this.table.search(this.table.hash(b));
+                if (this.vNamespace.test(a)) a = this.table.search(a).slice(1);
+                if (this.vNamespace.test(b)) b = this.table.search(b).slice(1);
 
                 let c = this.operation(Number(a), Number(b), token);
                 console.log("Showing my work: " + b + " " + token + " " + a + " = " + c);

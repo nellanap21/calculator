@@ -1,19 +1,27 @@
 export class HashTable {
     constructor(size) {
-        this.table = new Array(size).fill(null);
+        this.size = size;
+        this.table = new Array(size).fill('EMPTY');
 
     }
 
     hash(key) {
-        return key.charCodeAt(0) % 26;
+        return key[0].charCodeAt(0) % this.size;
     }
 
-    insert(key, value) {
+    insert(key) {
         let index = this.hash(key);
-        this.table[index] = value;
+        console.log(index);
+        // let originalIndex = index;
+        // while(this.table[index] != null) {
+        //     if(this.table)
+        // }
+        this.table[index] = key;
     }
 
-    search(index) {
+    search(key) {
+        let index = this.hash(key);
+        console.log(index);
         return this.table[index];
     }
 
@@ -25,7 +33,7 @@ export class HashTable {
     print() {
         let str = "";
         for (let i = 0; i < this.table.length; i++) {
-            str += i + ": " + this.table[i] + ", ";
+            str += "[" + i + ": " + this.table[i] + "] ";
         }
         console.log(str);
     }

@@ -26,6 +26,7 @@ function promptInput() {
     rl.question('Enter postfix expression: ', (input) => {
         try {
             console.log(calculator.evaluate(input));
+            calculator.showTable();
         } catch(error) {
             console.error("Error:", error.message);
         }
