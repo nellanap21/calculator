@@ -1,9 +1,12 @@
 import { Stack } from './stack.js'
 import { Queue } from './queue.js'
+import { HashTable } from './hashTable.js'
 
 export class Calculator {
     constructor() {
-        
+        this.table = new HashTable(26);
+        this.vNamespace = /[A-Z]/;
+        this.tNamespace = /\+|-|\*|\/|\.|=|\s|[A-Z]|0-9|/;
     }
 
     tokenize(input) {
@@ -15,11 +18,18 @@ export class Calculator {
         // split into tokens
         let tokens = cleanedInput.split(" ");
 
+        // check if tokens are in token namespace
+        for (let i = 0; i < tokens.length; i++) {
+            if (!this.tNamespace.test(tokens[i])) throw new Error (`Invalid token entered`);
+        }
+
+        // check for valid expression
         let operands = 0;
         let operators = 0;
-
         for (let i = 0; i < tokens.length; i++) {
             if (!isNaN(tokens[i])) {
+                operands++;
+            } else if ( this.vNamespace.test(tokens[i]) ) {
                 operands++;
             } else {
                 operators++;
@@ -66,21 +76,39 @@ export class Calculator {
             let token = queue.dequeue();
 
             // check if token is a number
-            if (!isNaN(token)) {
-                console.log(`${token} is a number`);
+            if (!isNaN(token)) { // store numbers in stack
                 stack.push(token);
+            } else if ( this.vNamespace.test(token) ) { // store variables in stack
+                stack.push(token);
+            } else if (token === '=') { // if assignment operator, assign to table and return
+                let a = stack.pop();
+                let b = stack.pop();
+                this.table.insert(b, a);
+                let confirm = (`${b} = ${a} saved`);
+                return confirm;
+
             } else { 
-                console.log(`${token} is not a number`);
-                let a = Number(stack.pop());
-                let b = Number(stack.pop());
-                let c = this.operation(a, b, token);
-                console.log(a + " " + b + " " + token + " = " + c);
+                // remove top 2 operands from stack and apply operator
+                let a = stack.pop();
+                let b = stack.pop();
+
+                // if variable, search for value in table
+                if (this.vNamespace.test(a)) a = this.table.search(this.table.hash(a));
+                if (this.vNamespace.test(b)) b = this.table.search(this.table.hash(b));
+
+                let c = this.operation(Number(a), Number(b), token);
+                console.log("Showing my work: " + b + " " + token + " " + a + " = " + c);
+
+                // push the result back to stack
                 stack.push(c);
             }
         }
-
+        // return the final value
         return stack.pop();
     }
 
+    showTable() {
+        this.table.print();
+    }
 
 }
