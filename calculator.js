@@ -18,9 +18,12 @@ export class Calculator {
         // split into tokens
         let tokens = cleanedInput.split(" ");
 
-        // check if tokens are in token namespace
         for (let i = 0; i < tokens.length; i++) {
+            // check if tokens are in token namespace
             if (!this.tNamespace.test(tokens[i])) throw new Error (`Invalid token entered`);
+
+            // check syntax of assignment operator
+            if (tokens[i] === '=' && i !== (tokens.length - 1)) throw new Error (`Assignment must be at end`);
         }
 
         // check for valid expression
@@ -95,16 +98,17 @@ export class Calculator {
                 // remove top 2 operands from stack and apply operator
                 let a = stack.pop();
                 let b = stack.pop();
-                console.log(a + " " + b);
+                
                 // if variable, search for value in table, remove first char
                 if (this.vNamespace.test(a)) a = this.table.search(a).slice(1);
                 if (this.vNamespace.test(b)) b = this.table.search(b).slice(1);
 
                 let c = this.operation(Number(a), Number(b), token);
-                console.log("Showing my work: " + b + " " + token + " " + a + " = " + c);
 
                 // push the result back to stack
                 stack.push(c);
+
+                return `Showing my work: ${b} ${token} ${a} = ${c}`; 
             }
         }
         // return the final value

@@ -75,8 +75,6 @@ export class HashTable {
                 this.insert(oldTable[i]);
             }
         }
-        console.log(this.table);
-
     }
 
     checkLoadFactor() {

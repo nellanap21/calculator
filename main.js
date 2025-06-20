@@ -17,6 +17,7 @@ function printMenu() {
     console.log("Operands and operators must be separated by a space ' '");
     console.log("Operations consist only of + - / *");
     console.log("Variable namespace consists only of the names 'A'-'Z'");
+    console.log("Enter '#' to show the hash table.")
     console.log("=======================================================");
 }
 
@@ -24,18 +25,24 @@ function promptInput() {
 
     // this function is async, so it doesn't block
     rl.question('Enter postfix expression: ', (input) => {
-        try {
-            console.log(calculator.evaluate(input));
+
+        if (input === '#') {
             calculator.showTable();
-        } catch(error) {
-            console.error("Error:", error.message);
-        }
+        } else {
+            try {
+                console.log(calculator.evaluate(input));
+            } catch(error) {
+                console.error("Error:", error.message);
+            }
+        };
+
+        console.log("-------------------------");
         // must make recursive call inside callback to prevent stack overflow
         promptInput();
-
     });
 }
 
+// function for testing purposes
 function testInput() {
     // test assigning all variables in namespace
     for (let i = 0; i < 26; i++) {
@@ -49,6 +56,7 @@ function testInput() {
         console.log(calculator.evaluate(str));
     }
 }
+
 printMenu();
 promptInput();
 // testInput();
