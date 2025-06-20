@@ -76,13 +76,17 @@ export class Calculator {
             let token = queue.dequeue();
 
             // check if token is a number
-            if (!isNaN(token)) { // store numbers in stack
+            if (!isNaN(token)) { 
+                // store numbers in stack
                 stack.push(token);
-            } else if ( this.vNamespace.test(token) ) { // store variables in stack
+            } else if ( this.vNamespace.test(token) ) { 
+                // store variables in stack
                 stack.push(token);
-            } else if (token === '=') { // if assignment operator, assign to table and return
+            } else if (token === '=') { 
+                // assignment operation
                 let a = stack.pop();
                 let b = stack.pop();
+                if (this.vNamespace.test(a)) a = this.table.search(a).slice(1);
                 this.table.insert(b + a);
                 let confirm = (`${b} = ${a} saved`);
                 return confirm;

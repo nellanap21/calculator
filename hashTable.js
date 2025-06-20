@@ -36,7 +36,6 @@ export class HashTable {
     }
 
     search(key) {
-        console.log(this.hash(key));
         let originalIndex = this.hash(key);
         for (let i = 0; i < this.size; i++) {
             let index = (originalIndex + i) % this.size;
