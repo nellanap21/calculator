@@ -10,8 +10,10 @@ export class HashTable {
     }
 
     insert(key) {
-
-        console.log(this.hash(key));
+        if (this.checkLoadFactor()) {
+            this.extend();
+        }
+        
         let originalIndex = this.hash(key);
         // use linear probe for collisions
         for (let i = 0; i < this.size; i++) {
@@ -56,11 +58,31 @@ export class HashTable {
     // Not necessary to implement delete because we can
     // extend hash table to accomodate all possible variables
     extend() {
+        // make a copy of existing table
+        let oldTable = [...this.table];
+
+        // increase size by 5
+        this.size = this.size + 5;
+
+        // reset load factor
+        this.load = 0;
+
+        // create extended hash table
+        this.table = new Array(this.size).fill('EMPTY');
+
+        // copy over elements from old table
+        for (let i = 0; i < oldTable.length; i++) {
+            if (oldTable[i] != 'EMPTY') {
+                this.insert(oldTable[i]);
+            }
+        }
+        console.log(this.table);
 
     }
 
     checkLoadFactor() {
-        return (this.load + 1) > this.size;
+        // wait until hash table is full before extending
+        return (this.load + 1) > this.size ;
     }
 
     print() {
