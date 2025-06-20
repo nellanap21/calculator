@@ -92,7 +92,7 @@ export class Calculator {
                 let a = stack.pop();
                 let b = stack.pop();
                 console.log(a + " " + b);
-                // if variable, search for value in table
+                // if variable, search for value in table, remove first char
                 if (this.vNamespace.test(a)) a = this.table.search(a).slice(1);
                 if (this.vNamespace.test(b)) b = this.table.search(b).slice(1);
 
