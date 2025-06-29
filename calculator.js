@@ -6,7 +6,7 @@ export class Calculator {
     constructor() {
         this.table = new HashTable(6);
         this.vNamespace = /[A-Z]/;
-        this.tNamespace = /\+|-|\*|\/|\.|=|\s|[A-Z]|0-9|/;
+        this.tNamespace = /^[A-Z0-9+\-*/.=]+$/;
     }
 
     tokenize(input) {
