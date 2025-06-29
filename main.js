@@ -1,10 +1,8 @@
 import { Calculator } from './calculator.js';
-
 import {createInterface } from 'node:readline';
 import {stdin, stdout } from 'node:process';
 
 const calculator = new Calculator();
-
 
 const rl = createInterface({
     input: stdin,

@@ -108,7 +108,7 @@ export class Calculator {
                 // push the result back to stack
                 stack.push(c);
 
-                return `Showing my work: ${b} ${token} ${a} = ${c}`; 
+                console.log(`Showing my work: ${b} ${token} ${a} = ${c}`);
             }
         }
         // return the final value
